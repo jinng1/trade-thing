@@ -89,9 +89,9 @@ export default function CalculatorForm() {
       </form>
       <div>
         <ul>
-          <li>Entry Size: {entrySize}</li>
-          <li>DCA 1 Size: {dca1Size}</li>
-          <li>DCA 2 Size: {dca2Size}</li>
+          <li>Entry Size: {entrySize.toFixed(3)}</li>
+          <li>DCA 1 Size: {dca1Size.toFixed(3)}</li>
+          <li>DCA 2 Size: {dca2Size.toFixed(3)}</li>
         </ul>
       </div>
     </div>
