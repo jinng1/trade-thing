@@ -1,14 +1,10 @@
-/*
-TODO:
-- wallet balance
+import axios from "axios";
 
-- entries and dca sizes (to input to the trades)
-- stop loss?
-*/
-
-function getWalletBalance(): number {
+let getWalletBalanceAPI = import.meta.env.VITE_GET_WALLET_BALANCE
+async function getWalletBalance(): Promise<number> {
     // TODO: call backend to get wallet balance
-    return 350;
+    const response = await axios.get(getWalletBalanceAPI);
+    return response.data.balance as number;
 }
 
 function calculateSize(walletBalance:number, pct:number, leverage: number): number {

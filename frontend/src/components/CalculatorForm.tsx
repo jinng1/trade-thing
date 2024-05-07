@@ -2,9 +2,8 @@ import React, { useState, useEffect } from "react";
 import { calculateSize, getWalletBalance } from "../utils/calculatorUtils";
 
 export default function CalculatorForm() {
-  const [balance] = useState(getWalletBalance());
+  const [balance, setBalance] = useState<number>(0);
   const [formData, setFormData] = useState({
-    // Initial form data values
     balance: balance,
     leverage: 50,
     entry: 0.5,
@@ -16,12 +15,26 @@ export default function CalculatorForm() {
   const [dca1Size, setDca1Size] = useState(0);
   const [dca2Size, setDca2Size] = useState(0);
 
-  function handleInputChange(event: any) {
-    setFormData({
-      ...formData,
-      [event.target.name]: event.target.value,
-    });
+  function handleInputChange(event: React.ChangeEvent<HTMLInputElement>) {
+    const { name, value } = event.target;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [name]: value,
+    }));
   }
+
+  useEffect(() => {
+    const fetchBalance = async () => {
+      const walletBalance = await getWalletBalance();
+      setBalance(walletBalance);
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        balance: walletBalance,
+      }));
+    };
+
+    fetchBalance();
+  }, []);
 
   useEffect(() => {
     setEntrySize(
@@ -33,7 +46,7 @@ export default function CalculatorForm() {
     setDca2Size(
       calculateSize(formData.balance, formData.dca2, formData.leverage)
     );
-  });
+  }, [formData, balance]);
 
   return (
     <div>
