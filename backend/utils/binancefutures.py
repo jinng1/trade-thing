@@ -30,3 +30,33 @@ def get_balance():
                 error.status_code, error.error_code, error.error_message
             )
         )
+
+def get_tickers():
+    try:
+        tickers = []
+        resp = client.ticker_price()
+        for elem in resp:
+            if 'USDT' in elem['symbol']:
+                tickers.append(elem['symbol'])
+        return tickers
+    except ClientError as error:
+        print(
+            "Found error. status: {}, error code: {}, error message: {}".format(
+                error.status_code, error.error_code, error.error_message
+            )
+        )
+
+def get_positions():
+    try:
+        resp = client.get_position_risk()
+        positions = 0
+        for elem in resp:
+            if float(elem['positionAmt']) != 0:
+                positions += 1
+        return positions
+    except ClientError as error:
+        print(
+            "Found error. status: {}, error code: {}, error message: {}".format(
+                error.status_code, error.error_code, error.error_message
+            )
+        )

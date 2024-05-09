@@ -5,8 +5,9 @@ class MongoDBManager:
         self.client = MongoClient(config['MONGO_URI'])
         self.db = self.client.tradething
     
-    def get_collection(self, collection_name):
-        return self.db[collection_name]
+    def add_to_collection(self, collection_name, data):
+        collection = self.get_collection(collection_name)
+        collection.insert_one(data)
     
     def ping(self):
         return self.db.command('ping')
